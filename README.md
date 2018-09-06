@@ -1,1 +1,1 @@
-# practical-grpc-talk
+# practical-gRPC-talk
