@@ -73,4 +73,4 @@ generate:
 
     - name: doc
       output: ./doc
-      flags: filemap=./doc/filemap.xml
+      flags: filemap=../doc/filemap.xml

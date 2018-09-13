@@ -19,16 +19,6 @@ File: api/api.proto
 
 ## Messages
 
-### Empty
-
-File: google/protobuf/empty.proto
-
-| Name | Type | Options |
-| ----------- | ------------ | ------------- |
-
-
-
-
 ### Duration
 
 File: google/protobuf/duration.proto
@@ -37,6 +27,16 @@ File: google/protobuf/duration.proto
 | ----------- | ------------ | ------------- |
 | seconds | TYPE_INT64 | &lt;nil&gt; |
 | nanos | TYPE_INT32 | &lt;nil&gt; |
+
+
+
+
+### Empty
+
+File: google/protobuf/empty.proto
+
+| Name | Type | Options |
+| ----------- | ------------ | ------------- |
 
 
 
