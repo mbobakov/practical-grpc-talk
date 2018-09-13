@@ -1,0 +1,6 @@
+<FileMap>
+    <Generate>
+        <Template>doc.template.md</Template>
+        <Output>README.md</Output>
+    </Generate>
+</FileMap>

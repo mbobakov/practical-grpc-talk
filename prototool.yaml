@@ -1,0 +1,76 @@
+# Protoc directives.
+protoc:
+  version: 3.6.1
+  includes:
+    # - ../../vendor/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
+  allow_unused_imports: false
+
+# Lint directives.
+lint:
+  # Linter files to ignore.
+  ignores:
+    - id: REQUEST_RESPONSE_TYPES_IN_SAME_FILE
+      files:
+        - api/api.proto
+
+  # Linter rules.
+  # Run prototool list-all-linters to see all available linters.
+  rules:
+    # Determines whether or not to include the default set of linters.
+    no_default: false
+
+    # The specific linters to add.
+    add:
+     - MESSAGES_HAVE_COMMENTS
+
+    # The specific linters to remove.
+    remove:
+      - FILE_OPTIONS_REQUIRE_JAVA_MULTIPLE_FILES
+      - FILE_OPTIONS_REQUIRE_JAVA_OUTER_CLASSNAME
+      - FILE_OPTIONS_REQUIRE_JAVA_PACKAGE
+      - FILE_OPTIONS_EQUAL_GO_PACKAGE_PB_SUFFIX
+
+# Code generation directives.
+generate:
+  # Options that will apply to all plugins of type go and gogo.
+  go_options:
+    # The base import path. This should be the go path of the prototool.yaml file.
+    # This is required if you have any go plugins.
+    import_path: uber/foo/bar.git/idl/uber
+
+    # Extra modifiers to include with Mfile=package.
+    extra_modifiers:
+
+  # The list of plugins.
+  plugins:
+      # The plugin name. This will go to protoc with --name_out, so it either needs
+      # to be a built-in name (like java), or a plugin name with a binary
+      # protoc-gen-name.
+    - name: go
+
+      # The type, if any. Valid types are go, gogo.
+      # Use go if your plugin is a standard Golang plugin
+      # that uses github.com/golang/protobuf imports, use gogo
+      # if it uses github.com/gogo/protobuf imports. For protoc-gen-go
+      # use go, For protoc-gen-gogo, protoc-gen-gogoslick, etc, use gogo.
+      type: go
+
+      # Extra flags to specify.
+      # The only flag you will generally set is plugins=grpc for Golang.
+      # The Mfile=package flags are automatically set.
+      # ** Otherwise, generally do not set this unless you know what you are doing. **
+      flags: plugins=grpc
+
+      # The path to output generated files to.
+      # If the directory does not exist, it will be created when running generation.
+      # This needs to be a relative path.
+      output: .
+
+      # Optional override for the plugin path. For example, if you set set path to
+      # /usr/local/bin/gogo_plugin", prototool will add the
+      # "--plugin=protoc-gen-gogo=/usr/local/bin/gogo_plugin" flag to protoc calls.
+      # path: /usr/local/bin/gogo
+
+    - name: doc
+      output: ./doc
+      flags: filemap=./doc/filemap.xml
