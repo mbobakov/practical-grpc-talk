@@ -27,7 +27,10 @@ func CheckClientIsLocalStream(srv interface{}, ss grpc.ServerStream, info *grpc.
 	}
 	grpclog.Infof("%#v", srv)
 	grpclog.Infof("%#v", info)
-	return handler(srv, ss)
+	grpclog.Infof("Started")
+	err := handler(srv, ss)
+	grpclog.Infof("Finished %v", err)
+	return nil
 }
 
 func checkNetFromContext(ctx context.Context, nt string) error {

@@ -59,14 +59,19 @@ func (t *TS) CurrentDayLength(ctx context.Context, e *empty.Empty) (*duration.Du
 // Clock tick every second
 func (t *TS) Clock(req *empty.Empty, st api.Time_ClockServer) error {
 	tickr := time.NewTicker(time.Second)
-	for tm := range tickr.C {
-		err := st.Send(&timestamp.Timestamp{
-			Seconds: int64(tm.Unix()),
-			Nanos:   int32(tm.UnixNano() - int64(tm.Unix())*int64(time.Second)),
-		})
-		if err != nil {
-			return err
+	ctx := st.Context()
+	for {
+		select {
+		case tm := <-tickr.C:
+			err := st.Send(&timestamp.Timestamp{
+				Seconds: int64(tm.Unix()),
+				Nanos:   int32(tm.UnixNano() - int64(tm.Unix())*int64(time.Second)),
+			})
+			if err != nil {
+				return err
+			}
+		case <-ctx.Done():
+			return nil
 		}
 	}
-	return nil
 }
