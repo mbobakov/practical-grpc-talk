@@ -12,6 +12,8 @@ import (
 	"github.com/mbobakov/practical-grpc-talk/middleware"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	hlzpb "google.golang.org/grpc/health/grpc_health_v1"
 )
 
 // TS is a time server
@@ -29,6 +31,9 @@ func ServeGRPC(ctx context.Context, l string) error {
 		grpc.UnaryInterceptor(middleware.CheckClientIsLocal),
 		grpc.StreamInterceptor(middleware.CheckClientIsLocalStream),
 	)
+
+	hlzpb.RegisterHealthServer(s, health.NewServer())
+
 	api.RegisterTimeServer(s, &TS{})
 	errCh := make(chan error, 1)
 	go func() {
