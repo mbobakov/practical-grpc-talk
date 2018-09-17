@@ -5,12 +5,10 @@ import (
 	"log"
 	"os"
 
-	"google.golang.org/grpc/grpclog"
-
-	"github.com/sirupsen/logrus"
-
 	"github.com/jessevdk/go-flags"
 	"github.com/mbobakov/practical-grpc-talk/internal/server"
+	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc/grpclog"
 )
 
 func main() {
