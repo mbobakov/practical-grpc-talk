@@ -17,6 +17,7 @@ services:
   client:
     build: ../../
     environment:
+      SD_PROVIDER: "list"
       TARGET: "server1:50051;server2:50051;server3:50051"
     command: ["/client"]
     ports:

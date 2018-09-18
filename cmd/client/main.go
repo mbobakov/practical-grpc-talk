@@ -19,7 +19,7 @@ func main() {
 		HTTPListen        string `long:"http.listen" env:"HTTP_LISTEN" default:":8080" description:"HTTP server interface"`
 		DebugListen       string `long:"debug.listen" env:"DEBUG_LISTEN" default:":6060" description:"Interface for serve debug information(metrics/health/pprof)"`
 		ConsulServiceName string `long:"consul.sname" env:"CONSUL_SERVICE_NAME" default:"time" description:"Consul service name"`
-		SD                string `long:"sd.provider" env:"SD_PROVIDER" default:"direct" description:"Service discovery config provider" choice:"consul" choice:"direct"`
+		SD                string `long:"sd.provider" env:"SD_PROVIDER" default:"direct" description:"Service discovery config provider" choice:"consul" choice:"list" choice:"direct"`
 		Target            string `long:"target" env:"TARGET" default:"server:50051" description:"Connect to this target. If Service-discovery is consul - consul address"`
 		Verbose           bool   `short:"v" env:"VERBOSE" description:"Enable Verbose log  output"`
 	}{}

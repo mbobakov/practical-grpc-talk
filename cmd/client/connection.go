@@ -19,7 +19,10 @@ func connect(tpe, target, sname string) (*grpc.ClientConn, error) {
 		)
 	case "direct":
 		return grpc.Dial(target,
-			grpc.WithBlock(),
+			grpc.WithInsecure(),
+		)
+	case "list":
+		return grpc.Dial(target,
 			grpc.WithInsecure(),
 			grpc.WithBalancer(
 				grpc.RoundRobin(
