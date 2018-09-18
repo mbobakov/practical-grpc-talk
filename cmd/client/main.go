@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"os"
 
-	"google.golang.org/grpc"
-
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jessevdk/go-flags"
 	"github.com/mbobakov/practical-grpc-talk/api"
@@ -53,7 +51,6 @@ func main() {
 		_, err := client.CurrentDayLength(
 			context.Background(),
 			&empty.Empty{},
-			grpc.FailFast(false),
 		)
 		st, ok := status.FromError(err)
 		if !ok {
