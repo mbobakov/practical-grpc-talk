@@ -58,6 +58,7 @@ func main() {
 		if st.Code() != codes.OK {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("Error: " + st.Message()))
+			logger.Errorf("http err: grpc err %d : %v", st.Code(), st.Message())
 			return
 		}
 	})
