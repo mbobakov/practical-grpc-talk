@@ -10,7 +10,7 @@ RUN go build -o server cmd/server/*.go
 FROM alpine:3.8
 EXPOSE 8080
 EXPOSE 6060
-EXPOSE 50501
+EXPOSE 50051
 COPY --from=builder /project/server /server
 COPY --from=builder /project/client /client
 CMD [ "/server" ]

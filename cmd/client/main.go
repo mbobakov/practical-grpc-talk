@@ -5,10 +5,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/mbobakov/practical-grpc-talk/api"
-
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jessevdk/go-flags"
+	"github.com/mbobakov/practical-grpc-talk/api"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"
@@ -21,7 +20,7 @@ func main() {
 		DebugListen       string `long:"debug.listen" env:"DEBUG_LISTEN" default:":6060" description:"Interface for serve debug information(metrics/health/pprof)"`
 		ConsulServiceName string `long:"consul.sname" env:"CONSUL_SERVICE_NAME" default:"time" description:"Consul service name"`
 		SD                string `long:"sd.provider" env:"SD_PROVIDER" default:"direct" description:"Service discovery config provider" choice:"consul" choice:"direct"`
-		Target            string `long:"target" env:"TARGET" default:"server:50501" description:"Connect to this target. If Service-discovery is consul - consul address"`
+		Target            string `long:"target" env:"TARGET" default:"server:50051" description:"Connect to this target. If Service-discovery is consul - consul address"`
 		Verbose           bool   `short:"v" env:"VERBOSE" description:"Enable Verbose log  output"`
 	}{}
 

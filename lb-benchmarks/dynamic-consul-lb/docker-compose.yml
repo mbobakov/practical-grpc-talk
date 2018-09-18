@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+  server1:
+    build: ../../
+    networks:
+      - timesrv-consul-lb
+    ports:
+      - "50051"
+    environment:
+      SERVICE_50051_NAME: time
+    depends_on:
+      - registrator
+  server2:
+    build: ../../
+    networks:
+      - timesrv-consul-lb
+    ports:
+      - "50051"
+    environment:
+      SERVICE_50051_NAME: time
+    depends_on:
+      - registrator
+  server3:
+    build: ../../
+    ports:
+      - "50051"
+    environment:
+      SERVICE_50051_NAME: time
+    networks:
+      - timesrv-consul-lb
+    depends_on:
+      - registrator
+
+  consul:
+    image:  consul:1.2.3
+    command: "agent -ui -client 0.0.0.0 -dev"
+    ports:
+      - "8500:8500"
+    networks:
+      - timesrv-consul-lb
+
+  registrator:
+    image: gliderlabs/registrator:latest
+    command: "-internal=true consul://consul:8500"
+    depends_on:
+      - consul
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    networks:
+      - timesrv-consul-lb
+
+  client:
+    build: ../../
+    environment:
+      TARGET: "consul:8500"
+      SD_PROVIDER: consul
+    command: ["/client"]
+    ports:
+      - "8080:8080"
+    networks:
+      - timesrv-consul-lb
+    depends_on:
+      - registrator
+
+networks:
+  timesrv-consul-lb:

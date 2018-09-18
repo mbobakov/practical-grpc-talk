@@ -18,7 +18,15 @@ func connect(tpe, target, sname string) (*grpc.ClientConn, error) {
 			grpc.WithBalancerName(sname),
 		)
 	case "direct":
-		return grpc.Dial(target, grpc.WithBlock(), grpc.WithInsecure())
+		return grpc.Dial(target,
+			grpc.WithBlock(),
+			grpc.WithInsecure(),
+			grpc.WithBalancer(
+				grpc.RoundRobin(
+					NewPseudoResolver(target),
+				),
+			),
+		)
 	default:
 		return nil, errors.Errorf("Unknow connection type: %s", tpe)
 	}

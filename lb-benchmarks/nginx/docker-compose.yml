@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  server1:
+    build: ../../
+    networks:
+      - timesrv-nginx
+  server2:
+    build: ../../
+    networks:
+      - timesrv-nginx
+  server3:
+    build: ../../
+    networks:
+      - timesrv-nginx
+
+  nginx:
+    image: nginx:1.15.3
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - server1
+      - server2
+      - server3
+    networks:
+      - timesrv-nginx
+
+  client:
+    build: ../../
+    environment:
+      TARGET: "nginx:50051"
+    command: ["/client"]
+    ports:
+      - "8080:8080"
+    networks:
+      - timesrv-nginx
+    depends_on:
+      - nginx
+
+networks:
+  timesrv-nginx:

@@ -13,7 +13,7 @@ import (
 
 func main() {
 	var opts = struct {
-		GRPCListen  string `long:"grpc.listen" env:"GRPC_LISTEN" default:":50501" description:"GRPC server interface"`
+		GRPCListen  string `long:"grpc.listen" env:"GRPC_LISTEN" default:":50051" description:"GRPC server interface"`
 		DebugListen string `long:"debug.listen" env:"DEBUG_LISTEN" default:":6060" description:"Interface for serve debug information(metrics/health/pprof)"`
 		Verbose     bool   `short:"v" env:"VERBOSE" description:"Enable Verbose log  output"`
 	}{}
