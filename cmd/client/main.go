@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 
+	"google.golang.org/grpc"
+
 	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/jessevdk/go-flags"
 	"github.com/mbobakov/practical-grpc-talk/api"
@@ -48,7 +50,11 @@ func main() {
 	client := api.NewTimeClient(conn)
 
 	http.HandleFunc("/time", func(w http.ResponseWriter, r *http.Request) {
-		_, err := client.CurrentDayLength(context.Background(), &empty.Empty{})
+		_, err := client.CurrentDayLength(
+			context.Background(),
+			&empty.Empty{},
+			grpc.FailFast(false),
+		)
 		st, ok := status.FromError(err)
 		if !ok {
 			logger.Errorf("Unknow grpc status: %v", err)
