@@ -10,16 +10,18 @@
 	{{- end -}}
 {{- end -}}
 
+
+
 ## Services
 {{ if .Service -}}
-{{- range $s := .Service -}}
+{{ range $s := .Service -}}
 ### {{.Name}}
 
-Info:  {{- template "Comments" . -}}
+Info:  {{ template "Comments" . }}
 
 | Method Name | Request Type | Response Type | Comments |
 | ----------- | ------------ | ------------- | ------- |
-{{range .Method -}}
+{{range .Method }}
 | {{.Name}} | {{.InputType}} | {{.OutputType}} | {{- template "Comments" . -}}
 {{end}}
 {{end}}
@@ -28,9 +30,9 @@ Info:  {{- template "Comments" . -}}
 ## Messages
 
 {{ if .MessageType -}}
-{{range $m := .MessageType -}}
+{{range $m := .MessageType }}
 ### {{.Name}}
-Info: {{- template "Comments" . -}}
+Info: {{ template "Comments" . }}
 
 | Name | Type | Comments|
 | ----------- | ------------ | ---------- |
