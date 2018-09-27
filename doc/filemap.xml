@@ -1,6 +1,7 @@
 <FileMap>
     <Generate>
         <Template>doc.template.md</Template>
+         <Target>api/v1/api.proto</Target>
         <Output>README.md</Output>
     </Generate>
 </FileMap>

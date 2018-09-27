@@ -1,60 +1,30 @@
-# Package protocol
+# mbobakov.timemachine.api.v1 Package protocol## Services
+### TimeMachine
 
-## Services
-
-
-
-
-### Time
-
-File: api/api.proto
-
-| Method Name | Request Type | Response Type |
-| ----------- | ------------ | ------------- |
-| CurrentDayLength | .google.protobuf.Empty | .google.protobuf.Duration |
-| Clock | .google.protobuf.Empty | .google.protobuf.Timestamp |
-
-
+Info: TimeMachine is a service for communicating with the time engine server
+| Method Name | Request Type | Response Type | Comments |
+| ----------- | ------------ | ------------- | ------- |
+| Jump | .mbobakov.timemachine.api.v1.JumpRequest | .google.protobuf.Duration | Jump to specific moment in time
 
 
 
 
 ## Messages
 
-### Duration
+### Passenger
+Info: Passenger for the journey
+| Name | Type | Comments|
+| ----------- | ------------ | ---------- |
+| name |string| name of Passenger (min.length = 3)
+|
 
-File: google/protobuf/duration.proto
-
-| Name | Type | Options |
-| ----------- | ------------ | ------------- |
-| seconds | TYPE_INT64 | &lt;nil&gt; |
-| nanos | TYPE_INT32 | &lt;nil&gt; |
-
-
-
-
-### Empty
-
-File: google/protobuf/empty.proto
-
-| Name | Type | Options |
-| ----------- | ------------ | ------------- |
-
-
-
-
-### Timestamp
-
-File: google/protobuf/timestamp.proto
-
-| Name | Type | Options |
-| ----------- | ------------ | ------------- |
-| seconds | TYPE_INT64 | &lt;nil&gt; |
-| nanos | TYPE_INT32 | &lt;nil&gt; |
-
-
-
-
+### JumpRequest
+Info: JumpRequest is a request for the jump throuth time
+| Name | Type | Comments|
+| ----------- | ------------ | ---------- |
+| to |Timestamp||
+| passenger |Passenger| Passengers for the trip (min=2 max=5)
+|
 
 
 

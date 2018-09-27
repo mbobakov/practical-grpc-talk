@@ -1,40 +1,41 @@
-# Package protocol
+# {{.Package}} Package protocol
+
+{{- define "Comments" -}}
+	{{- $l := location . -}}
+	{{- if $l -}}
+		{{- if or $l.LeadingComments $l.TrailingComments -}}
+			{{- with $l.LeadingComments -}}{{- . -}}{{end}}
+			{{- with $l.TrailingComments -}}{{- . -}}{{end}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
 
 ## Services
-
-{{range $f := .ProtoFile -}}
 {{ if .Service -}}
-{{range $s := .Service -}}
+{{- range $s := .Service -}}
 ### {{.Name}}
 
-File: {{ $f.Name }}
+Info:  {{- template "Comments" . -}}
 
-| Method Name | Request Type | Response Type |
-| ----------- | ------------ | ------------- |
+| Method Name | Request Type | Response Type | Comments |
+| ----------- | ------------ | ------------- | ------- |
 {{range .Method -}}
-| {{.Name}} | {{.InputType}} | {{.OutputType}} |
-{{end}}
-
+| {{.Name}} | {{.InputType}} | {{.OutputType}} | {{- template "Comments" . -}}
 {{end}}
 {{end}}
 {{end}}
 
 ## Messages
 
-{{range $f := .ProtoFile -}}
 {{ if .MessageType -}}
 {{range $m := .MessageType -}}
 ### {{.Name}}
+Info: {{- template "Comments" . -}}
 
-File: {{ $f.Name }}
-
-| Name | Type | Options |
-| ----------- | ------------ | ------------- |
+| Name | Type | Comments|
+| ----------- | ------------ | ---------- |
 {{range .Field -}}
-| {{.Name}} | {{.Type}} | {{.Options}} |
-{{end}}
-
+| {{.Name}} | {{- fieldType . -}} | {{- template "Comments" . -}} |
 {{end}}
 {{end}}
 {{end}}
-

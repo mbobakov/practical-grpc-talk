@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/jessevdk/go-flags"
 	"github.com/mbobakov/practical-grpc-talk/internal/server"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
+	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc/grpclog"
 )
 
@@ -25,16 +28,33 @@ func main() {
 		}
 		os.Exit(1)
 	}
-	logger := logrus.New()
 
 	if opts.Verbose {
-		logger.SetLevel(logrus.DebugLevel)
+		logrus.SetLevel(logrus.DebugLevel)
 	}
 
-	grpclog.SetLoggerV2(&grpcLog{logger})
+	grpclog.SetLoggerV2(&grpcLog{logrus.StandardLogger()})
 
-	err = server.ServeGRPC(context.Background(), opts.GRPCListen)
-	if err != nil {
+	gr, ctx := errgroup.WithContext(context.Background())
+
+	gr.Go(func() error {
+		return server.ServeGRPC(ctx, opts.GRPCListen)
+	})
+	gr.Go(func() error {
+		errCh := make(chan error)
+		go func() {
+			http.Handle("/metrics", promhttp.Handler())
+			errCh <- http.ListenAndServe(opts.DebugListen, nil)
+		}()
+		select {
+		case <-ctx.Done():
+			return nil
+		case err := <-errCh:
+			return err
+		}
+	})
+
+	if err := gr.Wait(); err != nil {
 		log.Fatal(err)
 	}
 }
